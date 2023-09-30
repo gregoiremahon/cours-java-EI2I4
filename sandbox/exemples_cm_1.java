@@ -83,7 +83,7 @@ class Identite{
     String adresse;
     boolean estValide;
 
-    
+    // constructeur
     Identite(String n, String p, int age, String adr, boolean v){
         nom = n;
         prenom = p;
@@ -91,7 +91,8 @@ class Identite{
         adresse = adr;
         estValide = v;
     }
-
+    // Méthodes
+    
     //void afficherIdentite()
 }
 
