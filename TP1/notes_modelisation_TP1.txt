@@ -1,0 +1,47 @@
+Classe Carte : Cette classe représente une carte individuelle.
+
+Attributs :
+couleur : La couleur de la carte (pique, coeur, carreau, trèfle).
+valeur : La valeur de la carte (As, Deux, Trois,..., Dix, Valet, Dame, Roi).
+Méthodes :
+compareA(Carte autreCarte) : Compare cette carte à une autre carte et retourne un résultat (supérieure, inférieure ou égale).
+
+
+Classe PaquetDeCartes : Cette classe représente un paquet de cartes.
+
+Attributs :
+cartes : Une liste de cartes.
+Méthodes :
+melanger() : Mélange les cartes du paquet.
+distribuer() : Distribue les cartes entre deux joueurs.
+retirerCarteDuDessus() : Retire et retourne la carte du dessus du paquet.
+ajouterCarteAuDessous(Carte carte) : Ajoute une carte au dessous du paquet.
+
+
+Classe Joueur : Cette classe représente un joueur.
+
+Attributs :
+paquet : Le paquet de cartes du joueur.
+Méthodes :
+jouerCarte() : Joue la carte du dessus de son paquet.
+gagnerCartes(List<Carte> cartesGagnees) : Ajoute les cartes gagnées au dessous de son paquet.
+
+
+Classe JeuDeBataille : Cette classe contrôle le déroulement du jeu.
+
+Attributs :
+joueur1 : Le premier joueur.
+joueur2 : Le deuxième joueur.
+paquetPrincipal : Le paquet de cartes principal avant la distribution.
+cartesSurTable : Les cartes actuellement sur la table.
+Méthodes :
+initialiserJeu() : Crée le paquet principal, le mélange, puis distribue les cartes aux joueurs.
+jouerTour() : Chaque joueur joue une carte, compare les cartes, et détermine le gagnant du tour.
+bataille() : Gère le cas où il y a une bataille entre les joueurs.
+joueurGagnant() : Détermine le joueur gagnant à la fin du jeu.
+
+
+Classe Main (ou une autre classe de démarrage) : Cette classe contient la méthode main pour démarrer le jeu.
+
+Méthodes :
+main(String[] args) : Crée une instance du jeu de bataille et commence le jeu.
