@@ -38,6 +38,10 @@ class Point2D {
         this.norme = norme;
     }
 
+    public String toString(){
+        return this.x + ", " + this.y + " norme : "+ this.norme;
+    }
+
 }
 
 
@@ -72,6 +76,10 @@ class Point3D extends Point2D{
         return dotProduct2D + this.z * other.z;
     }
 
+    public String toString(){
+        return super.toString() + ", z : " + this.z;
+    }
+
 }
 
 public class EX8{
@@ -91,5 +99,16 @@ public class EX8{
         double produitScalaireP3D = p3D.dotProduct(p3D_2);
         System.out.println("Résultat du produit scalaire en 3D : " + produitScalaireP3D);
 
+    }
+}
+
+
+class EX8avecToString{
+    public static void main(String[] args){
+        Point2D p1 = new Point2D(3.5, 5.2);
+        Point2D p2 = new Point2D(2, 2);
+        Point3D p3D = new Point3D(1, 4, 3);
+
+        System.out.println(p1 + "\n" + p2 + "\n" + p3D);
     }
 }
