@@ -1,0 +1,28 @@
+Pseudo code algo déplacement snake : 
+
+    fonction moveSnake(direction, snakeBody) {
+        ancienneTete = snakeBody[0]
+        nouvelleTete = nouvellePosition(ancienneTete, direction)
+
+        if (serpentMangePomme(nouvelleTete)) {
+            // Ajoute la nouvelle tête sans retirer la queue
+            snakeBody.insert(0, nouvelleTete)
+        } else {
+            // Ajoute la nouvelle tête et retire la queue
+            snakeBody.insert(0, nouvelleTete)
+            snakeBody.removeLast()
+        }
+    }
+
+    fonction nouvellePosition(tete, direction) {
+        switch (direction) {
+            case HAUT:
+                return new Point(tete.x, tete.y - 1)
+            case BAS:
+                return new Point(tete.x, tete.y + 1)
+            case GAUCHE:
+                return new Point(tete.x - 1, tete.y)
+            case DROITE:
+                return new Point(tete.x + 1, tete.y)
+        }
+    }

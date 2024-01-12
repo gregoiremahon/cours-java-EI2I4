@@ -1,0 +1,49 @@
+@startuml
+
+class SnakeModel {
+  - position: Point
+  - direction: Direction
+  - snakeBody: ArrayList<Point>
+  + getSnakeBody(): ArrayList<Point>
+  + move(): void
+  + grow(): void
+  + checkCollision(): boolean
+  + removeLastPoint(): void
+  + setDirection(Direction direction): void
+  + toString(): String
+}
+
+class Apple {
+  - position : Point
+  + getPosition(): Point
+  + generateRandomPosition(): Point
+  + toString(): String
+}
+
+class GameStatus {
+  - status: Status
+  + getStatus(): Status
+  + setStatus(status: Status): void
+  + toString(): String
+}
+
+class GameView {
+  + update(model: SnakeModel, status: GameStatus): void
+  + toString(): String
+}
+
+class GameController {
+  + keyPressed(input: KeyEvent): void
+  + toString(): String
+}
+
+class SnakeGame {
+  + main(args: String[]): void
+}
+
+SnakeModel "1" -right- "observes" GameView
+GameController -down- "updates" SnakeModel
+GameController -right- "updates" Apple
+GameController -down- "updates" GameStatus
+GameView -left- "observes" GameStatus
+@enduml
