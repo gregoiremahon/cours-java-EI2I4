@@ -60,11 +60,11 @@ public class SnakeGame {
             snakeModel.move();
             boolean gameLost = snakeModel.checkCollision();
             if (gameLost) {
-                System.exit(0);
+                System.exit(0); // si collision, ferme le jeu (à revoir...)
             }
             gameView.update(snakeModel, gameStatus); // Mettre à jour la vue après chaque mouvement
             try {
-                Thread.sleep(100); // Pause pour contrôler la vitesse du jeu
+                Thread.sleep(100); // Pause pour contrôler la vitesse du jeu et éviter que les frames aillent trop vite
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
