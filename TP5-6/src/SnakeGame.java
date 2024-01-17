@@ -14,16 +14,16 @@ public class SnakeGame {
     private SnakeModel snakeModel;
     private ArrayList<Apple> apples;
     private GameView gameView;
-    private GameStatus gameStatus;
     private int windowWidth = 850; 
     private int windowHeight = 550; 
-    private int appleSize = 10; 
+    private int appleSize = 10; // taille de la pomme en pixels, cercle de diamètre 10
     private boolean gameLost = false;
+    private boolean gameIsInPause = false;
 
     public SnakeGame() {
         snakeModel = new SnakeModel(); 
         apples = new ArrayList<>(); 
-        gameView = new GameView(snakeModel, gameStatus, apples);
+        gameView = new GameView(snakeModel, apples);
         setupAndShowGUI();
         generateApple();
         gameLoop();
@@ -41,7 +41,7 @@ public class SnakeGame {
         } while (isOnSnake); // Générer une nouvelle position si la pomme est sur le serpent
 
         apples.add(new Apple(newApplePosition));
-        gameView.update(snakeModel, gameStatus);
+        gameView.update(snakeModel);
     }
 
     private void setupAndShowGUI() {
@@ -49,20 +49,31 @@ public class SnakeGame {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(900, 600)); 
         frame.add(gameView);
-        GameController controller = new GameController(snakeModel);
+        GameController controller = new GameController(snakeModel, SnakeGame.this);
         frame.addKeyListener(controller);
         frame.setLocationRelativeTo(null); // Centre la fenêtre
         frame.setVisible(true);
     }
 
+    public void pause() {
+        gameIsInPause = true;
+    }
+
+    public void resume() {
+        gameIsInPause = false;
+    }
+
     public void gameLoop() {
         while (!gameLost) {
+            if(!gameIsInPause){
             snakeModel.move();
             boolean gameLost = snakeModel.checkCollision();
             if (gameLost) {
+                System.out.println("Collision, perdu !");
                 System.exit(0); // si collision, ferme le jeu (à revoir...)
             }
-            gameView.update(snakeModel, gameStatus); // Mettre à jour la vue après chaque mouvement
+            gameView.update(snakeModel); // Mettre à jour la vue après chaque mouvement
+        }
             try {
                 Thread.sleep(100); // Pause pour contrôler la vitesse du jeu et éviter que les frames aillent trop vite
             } catch (InterruptedException e) {

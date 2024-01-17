@@ -3,9 +3,12 @@ import java.awt.event.KeyEvent;
 
 public class GameController extends KeyAdapter {
     private SnakeModel model;
+    private SnakeGame gameManager;
+    private boolean pauseFlag = false;
 
-    public GameController(SnakeModel model) {
+    public GameController(SnakeModel model, SnakeGame gameManager) {
         this.model = model;
+        this.gameManager = gameManager;
     }
 
     @Override
@@ -23,6 +26,16 @@ public class GameController extends KeyAdapter {
                 break;
             case KeyEvent.VK_RIGHT:
                 model.setDirection(Direction.RIGHT);
+                break;
+            case KeyEvent.VK_SPACE:
+                gameManager.pause();
+                pauseFlag = true;
+                break;
+            case KeyEvent.VK_ENTER:
+                if (pauseFlag) {
+                    gameManager.resume();
+                    pauseFlag = false;
+                }
                 break;
         }
     }

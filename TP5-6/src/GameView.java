@@ -2,23 +2,20 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Point;
-import java.util.List;
+import java.util.ArrayList;
 
 public class GameView extends JPanel {
-    private SnakeModel model;
-    private GameStatus status;
-    private List<Apple> apples;
+    private SnakeModel snakeModel;
+    private ArrayList<Apple> apples;
 
-    public GameView(SnakeModel model, GameStatus status, List<Apple> apples) {
-        this.model = model;
-        this.status = status;
+    public GameView(SnakeModel snakeModel, ArrayList<Apple> apples) {
+        this.snakeModel = snakeModel;
         this.apples = apples;
     }
 
-    public void update(SnakeModel model, GameStatus status) {
+    public void update(SnakeModel snakeModel) {
         // Met à jour la vue avec les données
-        this.model = model;
-        this.status = status;
+        this.snakeModel = snakeModel;
         repaint();
     }
 
@@ -38,10 +35,9 @@ public class GameView extends JPanel {
     }
 
     private void drawSnake(Graphics g) {
-
         // couleur du serpent
         g.setColor(Color.BLACK);
-        List<Point> snakeBody = model.getSnakeBody();
+        ArrayList<Point> snakeBody = snakeModel.getSnakeBody();
 
         for (int i = 0; i < snakeBody.size() - 1; i++) {
             Point current = snakeBody.get(i);
