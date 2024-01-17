@@ -2,10 +2,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class SnakeModel {
-    private Point position; // Position actuelle de la tête du serpent
-    private Direction direction; // Direction actuelle du serpent
+    private Point position;
+    private Direction direction;
+    private Direction nextDirection; 
     private int initialSize;
-    private ArrayList<Point> snakeBody; // Liste des points constituant le corps du serpent
+    private ArrayList<Point> snakeBody;
 
     public SnakeModel() {
         initialSize = 15; // Taille initiale du serpent
@@ -19,6 +20,8 @@ public class SnakeModel {
         for (int i = 0; i < initialSize; i++) {
             snakeBody.add(new Point(i, 0)); // Ajoute les points en ligne droite
         }
+
+        nextDirection = direction; // init nextDirection
     }
 
     public ArrayList<Point> getSnakeBody(){
@@ -26,14 +29,18 @@ public class SnakeModel {
     }
 
     public void move() {
+        if (direction != nextDirection) {
+            snakeBody.add(new Point(position));
+            direction = nextDirection;
+        }
         // Calcule la nouvelle position de la tête en fonction de la direction
         Point newHead = new Point(position);
         switch (direction) {
             case UP:
-                newHead.y -= 5;
+                newHead.y -= 1;
                 break;
             case DOWN:
-                newHead.y += 5;
+                newHead.y += 1;
                 break;
             case LEFT:
                 newHead.x -= 1;
@@ -48,15 +55,17 @@ public class SnakeModel {
 
         // Met à jour la position avec la nouvelle tête
         position = newHead;
-
+        
         // Si le serpent ne grandit pas, retire le dernier élément
         if (snakeBody.size() > initialSize) {
             snakeBody.remove(snakeBody.size() - 1);
         }
+        
     }
 
     public void grow() {
         // A implémenter
+        // Ne pas oublier d'augmenter initialSize en conséquence pour éviter que les points soient supprimés au prochain frame
     }
 
     public boolean checkCollision() {
@@ -98,6 +107,7 @@ public class SnakeModel {
                 }
                 break;
         }
+        nextDirection = newDirection;
     }
 
     @Override
