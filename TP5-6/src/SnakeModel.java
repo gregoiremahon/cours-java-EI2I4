@@ -7,17 +7,15 @@ public class SnakeModel {
     private Direction nextDirection; 
     private int initialSize;
     private ArrayList<Point> snakeBody;
-    private double snakeSpeed = 1; // Vitesse de déplacement en px
+    private double snakeSpeed = 1;
 
     public SnakeModel() {
-        initialSize = 10; // Taille initiale du serpent
-        direction = Direction.RIGHT; // Direction initiale vers la droite.
+        initialSize = 10; 
+        direction = Direction.RIGHT; 
         snakeBody = new ArrayList<>();
-
-        // Initialiser la position de la tête
         position = new Point(initialSize, 15);
 
-        // Initialiser le corps du serpent
+
         for (int i = 0; i < initialSize; i++) {
             snakeBody.add(new Point(i, 15)); // Ajoute les points en ligne droite
         }
@@ -67,6 +65,7 @@ public class SnakeModel {
     public Direction getDirection(){
         return this.direction;
     }
+
 
     public void grow() {
         Point tail = snakeBody.get(snakeBody.size() - 1); 
