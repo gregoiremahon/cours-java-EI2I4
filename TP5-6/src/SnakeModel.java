@@ -7,18 +7,19 @@ public class SnakeModel {
     private Direction nextDirection; 
     private int initialSize;
     private ArrayList<Point> snakeBody;
+    private double snakeSpeed = 1; // Vitesse de déplacement en px
 
     public SnakeModel() {
-        initialSize = 15; // Taille initiale du serpent
-        direction = Direction.RIGHT; // Direction initiale
+        initialSize = 10; // Taille initiale du serpent
+        direction = Direction.RIGHT; // Direction initiale vers la droite.
         snakeBody = new ArrayList<>();
 
         // Initialiser la position de la tête
-        position = new Point(initialSize, 0);
+        position = new Point(initialSize, 15);
 
         // Initialiser le corps du serpent
         for (int i = 0; i < initialSize; i++) {
-            snakeBody.add(new Point(i, 0)); // Ajoute les points en ligne droite
+            snakeBody.add(new Point(i, 15)); // Ajoute les points en ligne droite
         }
 
         nextDirection = direction; // init nextDirection
@@ -37,16 +38,16 @@ public class SnakeModel {
         Point newHead = new Point(position);
         switch (direction) {
             case UP:
-                newHead.y -= 1;
+                newHead.y -= snakeSpeed;
                 break;
             case DOWN:
-                newHead.y += 1;
+                newHead.y += snakeSpeed;
                 break;
             case LEFT:
-                newHead.x -= 1;
+                newHead.x -= snakeSpeed;
                 break;
             case RIGHT:
-                newHead.x += 1;
+                newHead.x += snakeSpeed;
                 break;
         }
 
@@ -63,12 +64,27 @@ public class SnakeModel {
         
     }
 
-    public void grow() {
-        // A implémenter
-        // Ne pas oublier d'augmenter initialSize en conséquence pour éviter que les points soient supprimés au prochain frame
+    public Direction getDirection(){
+        return this.direction;
     }
 
-    public boolean checkCollision() {
+    public void grow() {
+        Point tail = snakeBody.get(snakeBody.size() - 1); 
+        Point lastPointBeforeTail = snakeBody.get(snakeBody.size() - 2);
+        Point newTail = new Point(tail); 
+
+        if (lastPointBeforeTail.x == tail.x) { // Si le serpent se déplace verticalement
+            newTail.y += (tail.y < lastPointBeforeTail.y) ? -snakeSpeed * 5 : snakeSpeed * 5;
+        } else if (lastPointBeforeTail.y == tail.y) { // Si le serpent se déplace horizontalement
+            newTail.x += (tail.x < lastPointBeforeTail.x) ? -snakeSpeed * 5 : snakeSpeed * 5;
+        }
+    
+        snakeBody.add(newTail);
+        initialSize++;
+    }
+    
+
+    public boolean checkSelfCollision() {
         Point snakeHead = snakeBody.get(0);
         // Boucle qui parcourt les coordonnées du serpent et qui vérifie
         // Si la tête entre en collision avec le reste du corps du serpent.
@@ -78,6 +94,22 @@ public class SnakeModel {
             }
         }
         return false;
+    }
+
+    public boolean checkCollisionWithApple(ArrayList<Apple> apples) {
+        Point snakeHead = snakeBody.get(0);
+        for (int i = 0; i < apples.size(); i++) {
+            Apple apple = apples.get(i);
+            Point appleCenter = apple.getPosition();
+            if (snakeHead.x >= appleCenter.x - 1 && snakeHead.x  <= appleCenter.x + 1) {
+                if(snakeHead.y >= appleCenter.y - 1 && snakeHead.y  <= appleCenter.y + 1){
+                    apples.remove(i);
+                    this.grow();
+                    return true; 
+                }
+            }
+        }
+        return false; 
     }
 
     public void setDirection(Direction newDirection) {
