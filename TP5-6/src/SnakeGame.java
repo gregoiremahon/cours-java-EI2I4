@@ -38,16 +38,26 @@ public class SnakeGame {
         gameLoop();
     }
 
+    public boolean isApplePositionOnSnake(ArrayList<Point> snakeBody, Point applePosition){
+        for (int i = 0; i < snakeBody.size() - 1; i++){
+            if (applePosition.x == snakeBody.get(i).x || applePosition.y == snakeBody.get(i).y){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void generateApple() {
         boolean isOnSnake;
-        Point newApplePosition;
+        ArrayList<Point> snakeBody = snakeModel.getSnakeBody();
+        Point newApplePosition = Apple.generateRandomPosition(windowWidth / appleSize, windowHeight / appleSize);
+        isOnSnake = isApplePositionOnSnake(snakeBody, newApplePosition);
 
-        do {
+        // avoid generating an apple on the snake
+        while(isOnSnake == true){
             newApplePosition = Apple.generateRandomPosition(windowWidth / appleSize, windowHeight / appleSize);
-            Point finalNewApplePosition = newApplePosition; // Variable temporaire final pour utilisation dans l'expression lambda
-            isOnSnake = snakeModel.getSnakeBody().stream()
-                                          .anyMatch(segment -> segment.equals(finalNewApplePosition));
-        } while (isOnSnake); // Générer une nouvelle position si la pomme est sur le serpent
+            isOnSnake = isApplePositionOnSnake(snakeBody, newApplePosition);
+        }
 
         apples.add(new Apple(newApplePosition));
         gameView.update(snakeModel);
